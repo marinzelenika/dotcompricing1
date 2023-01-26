@@ -17,11 +17,13 @@ export async function fetchData() {
            productFamilyData.forEach((product) => {
              let productName = product.Name;
              let charges = [];
+             let pricingPlanNames = [];
              product.PricingPlans.filter(
                (plan) => plan.DisplayOrder > 0 && !plan.Name.includes("Metered")
              )
                .sort((a, b) => a.DisplayOrder - b.DisplayOrder)
                .forEach((plan) => {
+                 pricingPlanNames.push(plan.Name);
                  plan.PaymentScheduleList.forEach((schedule) => {
                    charges += schedule.SubscriptionPeriodCharge + " ";
                  });
@@ -29,8 +31,10 @@ export async function fetchData() {
              products.push({
                productName: productName,
                charges: charges,
+               pricingPlanNames: pricingPlanNames,
              });
            });
+
 
 
 
