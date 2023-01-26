@@ -14,24 +14,22 @@ export async function fetchData() {
         .then((response) => response.json())
         .then((data) => {
           let productFamilyData = data.Products;
-          productFamilyData.forEach((product) => {
+          productFamilyData.filter(product => !product.Name.includes("Metered"))
+          .forEach((product) => {
             let productName = product.Name;
-            
             product.PricingPlans.filter((plan) => plan.DisplayOrder > 0)
               .sort((a, b) => a.DisplayOrder - b.DisplayOrder)
               .forEach((plan) => {
-                plan.PaymentScheduleList.forEach((schedule) => {
+                 plan.PaymentScheduleList.forEach((schedule) => {
                   charges += schedule.SubscriptionPeriodCharge + " ";
-                });
-                /* plan.PaymentScheduleList.forEach((schedule) => {
-                  charges.push(schedule.SubscriptionPeriodCharge);
-                }); */
+                }); 
               });
             products.push({
               productName: productName,
               charges: charges,
             });
           });
+
         });
     });
     await Promise.all(fetchPromises);
