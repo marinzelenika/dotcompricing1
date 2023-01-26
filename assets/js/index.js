@@ -12,7 +12,7 @@ async function main() {
       const pricingPlanName = product.pricingPlanNames;
       document.getElementById(
         "product-pricing-plans"
-      ).innerHTML += `<h5>${productName}</h5><p>${pricingPlanName}</p><p>${charges}</p><p>from ${lowestCharge}</p>`;
+      ).innerHTML += `<h5>${productName}</h5><p>from ${lowestCharge}</p><p>${pricingPlanName}</p><p>${charges}</p>`;
     });
   } catch (error) {
     console.log(error);

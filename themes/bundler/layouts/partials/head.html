@@ -11,5 +11,5 @@
     {{ $api := resources.Get "js/api.js" | js.Build $options | resources.Minify | fingerprint -}}
     {{ $main := resources.Get "js/index.js" | js.Build $options | resources.Minify | fingerprint -}}
     {{ $js := slice $main $api $filter | resources.Concat "js/bundle.js" }}   
-    <script src="{{ $js.RelPermalink }}"></script> 
+    <script type="application/javascript" src="{{ $js.RelPermalink }}" defer></script> 
 </head>
