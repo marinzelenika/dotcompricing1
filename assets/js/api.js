@@ -14,21 +14,26 @@ export async function fetchData() {
         .then((response) => response.json())
         .then((data) => {
           let productFamilyData = data.Products;
-          productFamilyData.forEach((product) => {
-            let productName = product.Name;
-            let charges = [];
-            product.PricingPlans.filter((plan) => plan.DisplayOrder > 0)
-              .sort((a, b) => a.DisplayOrder - b.DisplayOrder)
-              .forEach((plan) => {
+           productFamilyData.forEach((product) => {
+             let productName = product.Name;
+             let charges = [];
+             product.PricingPlans.filter(
+               (plan) => plan.DisplayOrder > 0 && !plan.Name.includes("Metered")
+             )
+               .sort((a, b) => a.DisplayOrder - b.DisplayOrder)
+               .forEach((plan) => {
                  plan.PaymentScheduleList.forEach((schedule) => {
-                  charges += schedule.SubscriptionPeriodCharge + " ";
-                }); 
-              });
-            products.push({
-              productName: productName,
-              charges: charges,
-            });
-          });
+                   charges += schedule.SubscriptionPeriodCharge + " ";
+                 });
+               });
+             products.push({
+               productName: productName,
+               charges: charges,
+             });
+           });
+
+
+
 
         });
     });
