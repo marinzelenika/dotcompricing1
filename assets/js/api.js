@@ -5,7 +5,7 @@ export async function fetchData() {
     );
     const data = await response.json();
     let products = [];
-    let charges = [];
+    
     const fetchPromises = data.map((productFamily) => {
       return fetch(
         "https://purchase-api.dynabic.com/v1.2/productFamily/site-aspose/name-" +
@@ -14,9 +14,9 @@ export async function fetchData() {
         .then((response) => response.json())
         .then((data) => {
           let productFamilyData = data.Products;
-          productFamilyData.filter(product => !product.Name.includes("Metered"))
-          .forEach((product) => {
+          productFamilyData.forEach((product) => {
             let productName = product.Name;
+            let charges = [];
             product.PricingPlans.filter((plan) => plan.DisplayOrder > 0)
               .sort((a, b) => a.DisplayOrder - b.DisplayOrder)
               .forEach((plan) => {
